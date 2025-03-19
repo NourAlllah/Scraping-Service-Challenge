@@ -123,7 +123,7 @@ class ScraperService
             // Saving products to DB 
             try {
                 $this->saveProductsToDB($allProducts);
-                return 'saved all';
+                return $allProducts;
             } catch (\Throwable $th) {
                 return $th;
             }
