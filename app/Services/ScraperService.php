@@ -40,22 +40,47 @@ class ScraperService
     {
         return $this->userAgents[array_rand($this->userAgents)];
     }
-    
-
-    public function getNumberOfPages($html)
+   
+    public function getNumberOfPages($url)
     {
-        $crawler = new Crawler($html);
-
-        $pageNumbers = $crawler->filter('.pg')->each(function (Crawler $node) {
-            return (int) trim($node->text());
-        });
-
-        return !empty($pageNumbers) ? max($pageNumbers) : 1; 
+        $userAgent = $this->getNewUserAgent();
+    
+        try {
+            $response = $this->client->request('GET', $url . "1", [
+                'headers' => [
+                    'User-Agent' => $userAgent,
+                ],
+            ]);
+    
+            $html = $response->getBody()->getContents();
+            $crawler = new Crawler($html);
+    
+            $lastPageLink = $crawler->filter('a[aria-label="Last Page"]')->attr('href');
+    
+            if ($lastPageLink) {
+                preg_match('/page=(\d+)/', $lastPageLink, $matches);
+                return isset($matches[1]) ? (int) $matches[1] : 1;
+            }
+    
+            return 1; 
+    
+        } catch (\Throwable $th) {
+            return 1; 
+        }
     }
 
+    public function saveProductsToDB($products)
+    {
+        foreach ($products as $productData) {
+            Product::create($productData);
+        }
+    }
+    
     public function scrapProductsData()
     {
-        /* $url="https://www.jumia.com.eg/category-fashion-by-jumia?page="; */
+        /* $Url = "https://www.jumia.com.eg/health-beauty/?page="; */
+        /* $Url = "https://www.jumia.com.eg/cameras/?page="; */
+        
         $Url = "https://www.jumia.com.eg/flash-sales?page=";
 
         $userAgent = $this->getNewUserAgent();
@@ -63,17 +88,9 @@ class ScraperService
 
         try {
 
-            $response = $this->client->request('GET', $Url . "1", [
-                'headers' => [
-                    'User-Agent' => $userAgent,
-                ],
-            ]);
+            $totalPages = $this->getNumberOfPages($Url);
 
-            $html = $response->getBody()->getContents();
-
-            $totalPages = $this->getNumberOfPages($html);
-
-            // Loop through all pages
+            //looping here over the pages 
             for ($page = 1; $page <= $totalPages; $page++) {
                 $pageUrl = $Url . $page;
                 
@@ -91,6 +108,8 @@ class ScraperService
                     $price = $node->filter('.prc')->text();
                     $image = $node->filter('img')->attr('data-src');
 
+                    $price = preg_replace('/[^\d.]/', '', $price); 
+
                     return [
                         'title' => trim($title),
                         'price' => trim($price),
@@ -98,8 +117,15 @@ class ScraperService
                     ];
                 });
 
-                // Merge all products
                 $allProducts = array_merge($allProducts, $products);
+            }
+
+            // Saving products to DB 
+            try {
+                $this->saveProductsToDB($allProducts);
+                return 'saved all';
+            } catch (\Throwable $th) {
+                return $th;
             }
 
             return $allProducts; 
