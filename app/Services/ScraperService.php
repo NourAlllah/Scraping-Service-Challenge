@@ -72,7 +72,10 @@ class ScraperService
     public function saveProductsToDB($products)
     {
         foreach ($products as $productData) {
-            Product::create($productData);
+            Product::updateOrCreate(
+                ['title' => $productData['title'], 'price' => $productData['price']], 
+                ['image_url' => $productData['image_url']]
+            );
         }
     }
     
