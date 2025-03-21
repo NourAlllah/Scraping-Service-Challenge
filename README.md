@@ -85,9 +85,9 @@
 
 ## Future Improvements
 - Integrate a proxy validation system to ensure only working proxies are used by:
-  .Fetching proxies dynamically from an API.
-  .Validating each proxy before use to avoid dead or blocked IPs.
-  .Implementing a fallback mechanism for failed proxy requests.
+  - Fetching proxies dynamically from an API.
+  - Validating each proxy before use to avoid dead or blocked IPs.
+  - Implementing a fallback mechanism for failed proxy requests.
 - Implement pagination for product listing.  
 - Add a search and filter option for better usability.  
 - Improve error handling in API calls to enhance reliability.
