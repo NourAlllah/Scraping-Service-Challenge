@@ -25,9 +25,9 @@
 
 ### Backend (Laravel)
 1. Clone the repository:
-   
-       git clone https://github.com/yourusername/repository-name.git
-       cd repository-name
+
+       git clone https://github.com/yourusername/Scraping-Service-Challenge.git
+       cd Scraping-Service-Challenge
 
 2. Set up the .env file and configure the database.
 3. Run migrations:
@@ -58,6 +58,37 @@ hr
 
         http://localhost:3000/products
 
+---
+
+## Technologies Used
+
+### Backend:
+- **Laravel (PHP)** - Framework for backend development  
+- **MySQL** - Database for storing product data  
+- **Guzzle** - HTTP client for making requests  
+
+### Frontend:
+- **Next.js (React)** - Frontend framework for building UI  
+- **TypeScript** - Strongly typed JavaScript for reliability  
+
+### Microservices:
+- **Golang** - Used for proxy management and rotation  
+
+### Scraping:
+- **Symfony DomCrawler** - Library for extracting product data  
+- **Guzzle** - Handles HTTP requests for scraping  
+
+### Styling:
+- **Tailwind CSS** - Ensures responsive and modern UI
+
+---
+
+## Future Improvements
+
+- Implement pagination for product listing.  
+- Add a search and filter option for better usability.  
+- Improve error handling in API calls to enhance reliability.
+- Create documentation for the Products API to improve developer experience and integration.  
 
 
 
