@@ -130,7 +130,7 @@ class ScraperService
                         $image = 'https://thumb.ac-illust.com/b1/b170870007dfa419295d949814474ab2_t.jpeg'; 
                     }
                     
-                    $price = preg_replace('/[^\d.]/', '', $price); 
+                    $price = (float)preg_replace('/[^\d.]/', '', $price); 
 
                     return [
                         'title' => trim($title),
