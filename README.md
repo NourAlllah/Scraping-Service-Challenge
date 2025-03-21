@@ -9,7 +9,7 @@
   - Rotates between different **user-agent headers** to mimic proxy rotation.
   - Stores the scraped product data in the MySQL database.
 - Create an API endpoint (`/api/products`) to return the stored products in **JSON format**.
-- Implement a **[Golang microservice]([your-link-here](https://github.com/NourAlllah/proxy-manager))** that handles proxy management (e.g., rotating proxies dynamically).
+- Implement a **[Golang microservice](https://github.com/NourAlllah/proxy-manager)** that handles proxy management (e.g., rotating proxies dynamically).
 
 ---
 
