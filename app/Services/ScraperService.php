@@ -97,11 +97,25 @@ class ScraperService
             for ($page = 1; $page <= $totalPages; $page++) {
                 $pageUrl = $Url . $page;
                 
+                //Without Proxy
                 $response = $this->client->request('GET', $pageUrl, [
                     'headers' => [
                         'User-Agent' => $userAgent,
                     ],
                 ]);
+
+                //With Proxy 
+                /* $proxyClient = new guzzle();
+                $proxyResponse = $proxyClient->get('http://localhost:8080/get_proxy');
+                $proxyUrl = (string) $proxyResponse->getBody();
+
+                $client = new guzzle([
+                    'proxy' => $proxyUrl,
+                    'headers' => [
+                        'User-Agent' => $userAgent,
+                    ],
+                ]);
+                $response = $client->get($pageUrl); */
 
                 $html = $response->getBody()->getContents();
                 $crawler = new Crawler($html);
