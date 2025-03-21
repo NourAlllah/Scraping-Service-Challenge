@@ -38,7 +38,7 @@
 
        php artisan serve
 
-hr 
+---
 
 ## Frontend (Next.js) 
 
