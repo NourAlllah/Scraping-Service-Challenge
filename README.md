@@ -4,7 +4,7 @@
 - Set up a Laravel project with a MySQL database.
 - Create a `Product` model with fields: `id`, `title`, `price`, `image_url`, and `created_at`.
 - Implement a scraping service that:
-  - Fetches product details from an eCommerce product page (e.g., Amazon, Jumia).
+  - Fetches product details from Jumia Egypt.
   - Uses **Guzzle HTTP client** to make requests.
   - Rotates between different **user-agent headers** to mimic proxy rotation.
   - Stores the scraped product data in the MySQL database.
