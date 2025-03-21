@@ -5,6 +5,8 @@ namespace App\Services;
 use GuzzleHttp\Client as guzzle;
 use Symfony\Component\DomCrawler\Crawler;
 use App\Models\Product;
+use Illuminate\Support\Facades\Log;
+
 
 class ScraperService
 {
@@ -81,10 +83,9 @@ class ScraperService
     
     public function scrapProductsData()
     {
-        /* $Url = "https://www.jumia.com.eg/health-beauty/?page="; */
+        //YOU CAN ADD ANY CATEGORY Link
         $Url = "https://www.jumia.com.eg/cameras/?page=";
-        
-        /* $Url = "https://www.jumia.com.eg/flash-sales?page="; */
+
 
         $userAgent = $this->getNewUserAgent();
         $allProducts = [];
@@ -103,6 +104,7 @@ class ScraperService
                         'User-Agent' => $userAgent,
                     ],
                 ]);
+
                 //With Proxy 
                 /* $proxyClient = new guzzle();
                 $proxyResponse = $proxyClient->get('http://localhost:8080/get_proxy');
@@ -128,7 +130,7 @@ class ScraperService
                         $image = 'https://thumb.ac-illust.com/b1/b170870007dfa419295d949814474ab2_t.jpeg'; 
                     }
                     
-                    $price =  trim(preg_replace('/[^\d.]/', '', $price));
+                    $price = preg_replace('/[^\d.]/', '', $price); 
 
                     return [
                         'title' => trim($title),
@@ -137,21 +139,21 @@ class ScraperService
                     ];
                 });
 
-
                 $allProducts = array_merge($allProducts, $products);
             }
 
             // Saving products to DB 
             try {
                 $this->saveProductsToDB($allProducts);
-                return $allProducts;
             } catch (\Throwable $th) {
+                Log::error("Saving products failed: " . $th->getMessage());
                 return $th;
             }
 
             return $allProducts; 
 
         } catch (\Throwable $th) {
+            Log::error("Scraper failed: " . $th->getMessage());
             return $th;
         }
     }
