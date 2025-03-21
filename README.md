@@ -25,6 +25,43 @@
 
 ### Backend (Laravel)
 1. Clone the repository:
-   ```sh
-   git clone https://github.com/yourusername/repository-name.git
-   cd repository-name
+   
+       git clone https://github.com/yourusername/repository-name.git
+       cd repository-name
+
+2. Set up the .env file and configure the database.
+3. Run migrations:
+
+       php artisan migrate
+   
+4. Start the Laravel server:
+
+       php artisan serve
+
+hr 
+
+## Frontend (Next.js) 
+
+1.Navigate to the frontend folder:
+
+        cd frontend
+        
+2.Install dependencies:
+    
+        npm install
+
+3.Start the development server:
+
+        npm run dev
+
+4.Open your browser and go to:
+
+        http://localhost:3000/products
+
+
+
+
+
+
+
+
