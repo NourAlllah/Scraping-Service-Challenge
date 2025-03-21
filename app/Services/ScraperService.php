@@ -82,9 +82,9 @@ class ScraperService
     public function scrapProductsData()
     {
         /* $Url = "https://www.jumia.com.eg/health-beauty/?page="; */
-        /* $Url = "https://www.jumia.com.eg/cameras/?page="; */
+        $Url = "https://www.jumia.com.eg/cameras/?page=";
         
-        $Url = "https://www.jumia.com.eg/flash-sales?page=";
+        /* $Url = "https://www.jumia.com.eg/flash-sales?page="; */
 
         $userAgent = $this->getNewUserAgent();
         $allProducts = [];
@@ -103,7 +103,6 @@ class ScraperService
                         'User-Agent' => $userAgent,
                     ],
                 ]);
-
                 //With Proxy 
                 /* $proxyClient = new guzzle();
                 $proxyResponse = $proxyClient->get('http://localhost:8080/get_proxy');
@@ -125,7 +124,11 @@ class ScraperService
                     $price = $node->filter('.prc')->text();
                     $image = $node->filter('img')->attr('data-src');
 
-                    $price = preg_replace('/[^\d.]/', '', $price); 
+                    if (empty($image)) {
+                        $image = 'https://thumb.ac-illust.com/b1/b170870007dfa419295d949814474ab2_t.jpeg'; 
+                    }
+                    
+                    $price =  trim(preg_replace('/[^\d.]/', '', $price));
 
                     return [
                         'title' => trim($title),
@@ -133,6 +136,7 @@ class ScraperService
                         'image_url' => $image,
                     ];
                 });
+
 
                 $allProducts = array_merge($allProducts, $products);
             }
